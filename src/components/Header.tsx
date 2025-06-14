@@ -7,6 +7,8 @@ import New from '../app/assets/new.png';
 
 export default function Header() {
     const [select, setSelect] = useState<number | null>(null);
+    const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+
 
     const videoRef = useRef<HTMLVideoElement>(null);
     const videoRef2 = useRef<HTMLVideoElement>(null);
@@ -71,16 +73,65 @@ export default function Header() {
                 <RightBox>
                     <Hosting>호스팅하기</Hosting>
                     <Lang>
-                        <ImgL src="/images/lang.png" alt="lang"/>
+                        <ImgL src="/images/lang.png" alt="lang" />
                     </Lang>
                     <Ham>
-                        <ImgH src="/images/ham.png" alt="ham"/>
+                        <ImgH src="/images/ham.png" alt="ham" />
                     </Ham>
                 </RightBox>
             </Top>
+            <Search>
+                <Box onMouseEnter={() => setHoveredIndex(0)} onMouseLeave={() => setHoveredIndex(null)}>
+                    <Trip>
+                        <TripS>여행지</TripS>
+                        <TripSearch>여행지 검색</TripSearch>
+                    </Trip>
+                </Box>
+
+                <ImgLine $hide={hoveredIndex === 0 || hoveredIndex === 1} src="images/line.png" alt="line" />
+
+                <Box onMouseEnter={() => setHoveredIndex(1)} onMouseLeave={() => setHoveredIndex(null)}>
+                    <Check1>
+                        <TripS>체크인</TripS>
+                        <TripSearch>날짜 추가</TripSearch>
+                    </Check1>
+                </Box>
+
+                <ImgLine $hide={hoveredIndex === 1 || hoveredIndex === 2} src="images/line.png" alt="line" />
+
+                <Box onMouseEnter={() => setHoveredIndex(2)} onMouseLeave={() => setHoveredIndex(null)}>
+                    <Check2>
+                        <TripS>체크아웃</TripS>
+                        <TripSearch>날짜 추가</TripSearch>
+                    </Check2>
+                </Box>
+
+                <ImgLine $hide={hoveredIndex === 2 || hoveredIndex === 3} src="images/line.png" alt="line" />
+
+                <Box onMouseEnter={() => setHoveredIndex(3)} onMouseLeave={() => setHoveredIndex(null)}>
+                    <TP>
+                        <Pe>
+                            <TripS>여행자</TripS>
+                            <TripSearch>게스트 추가</TripSearch>
+                        </Pe>
+                        <SearchB>
+                            <ImgS src="/images/search.png" alt="search" />
+                        </SearchB>
+                    </TP>
+                </Box>
+            </Search>
+
+
         </StyledHeader>
     );
 }
+
+const Box = styled.div`
+    display: flex;
+    align-items: center;
+    height: 100%;
+`;
+
 
 const StyledHeader = styled.div`
     width: 100%;
@@ -109,6 +160,17 @@ const Hosting = styled.p`
 
 `
 
+const TripSearch = styled.p`
+    font-size: 14px;
+    color: gray;
+    font-weight: 400;
+`
+
+const TripS = styled.p`
+    font-size: 12px;
+    font-weight: 400;
+`
+
 const Ham = styled.div`
     background-color: #F2F2F2;
     border-radius: 50%;
@@ -121,6 +183,19 @@ const Ham = styled.div`
 
 const ImgL = styled.img`
     height: 20px;
+`
+
+const ImgLine = styled.img<{ $hide?: boolean }>`
+    height: 40px;
+    width: 15px;
+    visibility: ${({ $hide }) => ($hide ? 'hidden' : 'visible')};
+`;
+
+
+const ImgS = styled.img`
+    height: 30px;
+    margin-left: 5px;
+    display: flex;
 `
 
 const ImgH = styled.img`
@@ -138,21 +213,96 @@ const Top = styled.div`
     gap: 390px;
 `
 
+const SearchB = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 50px;
+    width: 50px;
+    background-color: #FF395C;
+    border-radius: 50%;
+`
+
 const ImgLogo = styled.img`
     height: 70px;
 `
 const Search = styled.div`
-    height: 70px;
+    height: 8vh;
     width: 59vw;
     background-color: #fff;
-    border: solid 1px lightgray;
+    border: solid 1px #EBEBEB;
     border-radius: 50px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     display: flex;
-    margin-top: 15px;
+    margin-top: 20px;
+    align-items: center;
 `
 const Trip = styled.div`
-    height: 60px;
+    width: 19vw;
+    height: 8vh;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding-left: 30px;
+    &:hover{
+        background-color: #EBEBEB;
+        border-radius: 50px;
+    }
+`
+
+const Check1 = styled.div`
+    width: 9.5vw;
+    //background-color: #ccc;
+    height: 7.75vh;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding-left: 15px;
+    //border-radius: 50px;
+    &:hover{
+        background-color: #EBEBEB;
+        border-radius: 50px;
+    }
+`
+
+const Check2 = styled.div`
+    width: 9.5vw;
+    //background-color: #ccc;
+    height: 7.75vh;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding-left: 15px;
+    //border-radius: 50px;
+    &:hover{
+        background-color: #EBEBEB;
+        border-radius: 70px;
+    }
+`
+const Pe = styled.div`
+    justify-content: center;
+    flex-direction: column;
+    display: flex;
+    gap: 5px;
+`
+
+
+const TP = styled.div`
+    width: 18vw;
+    height: 8vh;
+    align-items: center;
+    //border-radius: 50px;
+    display: flex;
+    padding-left: 20px;
+    gap: 110px;
+    //background-color: #ccc;
+    &:hover{
+        background-color: #EBEBEB;
+        border-radius: 50px;
+    }
 `
 
 const ImgF = styled.div`
