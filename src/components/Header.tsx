@@ -8,6 +8,7 @@ import New from '../app/assets/new.png';
 export default function Header() {
     const [select, setSelect] = useState<number | null>(null);
     const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+    const [pos, setPos] = useState({ x: 560, y:73 });
 
 
     const videoRef = useRef<HTMLVideoElement>(null);
@@ -16,6 +17,12 @@ export default function Header() {
 
     const handleClick = (index: number) => {
         setSelect(index);
+        const positions = [
+            { x: 560, y:73 },   // 숙소
+            { x: 670, y:73  },  // 체험
+            { x: 780, y:73 },  // 서비스
+        ];
+        setPos(positions[index]);
 
         [videoRef, videoRef2, videoRef3].forEach((ref, i) => {
             if (ref.current) {
@@ -45,6 +52,12 @@ export default function Header() {
                         />
                         <Label1 selected={select === 0}>숙소</Label1>
                     </House>
+                    <UnderlineImg
+                        src="/images/underline.png"
+                        style={{ left: `${pos.x}px`, top: `${pos.y}px` }}
+                        alt="underline"
+                    />
+
                     <House onClick={() => handleClick(1)}>
                         <Video
                             ref={videoRef2}
@@ -184,6 +197,12 @@ const Ham = styled.div`
 const ImgL = styled.img`
     height: 20px;
 `
+const UnderlineImg = styled.img`
+  height: 25px;
+  position: absolute;
+  transition: all 0.3s ease; // 추가!
+`;
+
 
 const ImgLine = styled.img<{ $hide?: boolean }>`
     height: 40px;
