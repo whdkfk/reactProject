@@ -4,102 +4,96 @@ import styled from "styled-components";
 import { useState } from "react";
 
 interface GuestModalProps {
-  onClose: () => void;
-}
+    show: boolean;
+    onClose: () => void;
+  }
+  
 
-export default function GuestModal({ onClose }: GuestModalProps) {
-  const [adults, setAdults] = useState<number>(1);
-  const [children, setChildren] = useState<number>(0);
-  const [infants, setInfants] = useState<number>(0);
+export default function GuestModal({ show, onClose}: GuestModalProps) {
+    if (!show) return null;
 
-  const increase = (setter: React.Dispatch<React.SetStateAction<number>>) => () => setter(prev => prev + 1);
-  const decrease = (value: number, setter: React.Dispatch<React.SetStateAction<number>>) => () => {
-    if (value > 0) setter(prev => prev - 1);
-  };
+    const [adults, setAdults] = useState<number>(1);
+    const [children, setChildren] = useState<number>(0);
+    const [infants, setInfants] = useState<number>(0);
+    const [animals, setAnimals] = useState<number>(0);
 
-  return (
-    <Overlay onClick={onClose}>
-      <Modal onClick={(e) => e.stopPropagation()}>
-        <Section>
-          <Label>
-            <Title>성인</Title>
-            <Sub>13세 이상</Sub>
-          </Label>
-          <Counter>
-            <Button onClick={decrease(adults, setAdults)} disabled={adults <= 1}>-</Button>
-            <Count>{adults}</Count>
-            <Button onClick={increase(setAdults)}>+</Button>
-          </Counter>
-        </Section>
+    const increase = (setter: React.Dispatch<React.SetStateAction<number>>) => () =>
+        setter(prev => prev + 1);
+    const decrease = (value: number, setter: React.Dispatch<React.SetStateAction<number>>) => () => {
+        if (value > 0) setter(prev => prev - 1);
+    };
 
-        <Section>
-          <Label>
-            <Title>어린이</Title>
-            <Sub>2~12세</Sub>
-          </Label>
-          <Counter>
-            <Button onClick={decrease(children, setChildren)} disabled={children <= 0}>-</Button>
-            <Count>{children}</Count>
-            <Button onClick={increase(setChildren)}>+</Button>
-          </Counter>
-        </Section>
+    return (
+        <Overlay onClick={onClose}>
+            <Modal onClick={(e) => e.stopPropagation()}>
+                {[
+                    { label: "성인", sub: "13세 이상", value: adults, setValue: setAdults, min: 1 },
+                    { label: "어린이", sub: "2~12세", value: children, setValue: setChildren, min: 0 },
+                    { label: "유아", sub: "2세 미만", value: infants, setValue: setInfants, min: 0 },
+                    { label: "반려동물", sub: "보조동물을 동반하시나요?", value: animals, setValue: setAnimals, min: 0 }
+                ].map(({ label, sub, value, setValue, min }, index, array) => (
+                    <Section key={label} isLast={index === array.length - 1}>
+                        <Label>
+                            <Title>{label}</Title>
+                            <Sub>{sub}</Sub>
+                        </Label>
+                        <Counter>
+                            <Button onClick={decrease(value, setValue)} disabled={value <= min}>-</Button>
+                            <Count>{value}</Count>
+                            <Button onClick={increase(setValue)}>+</Button>
+                        </Counter>
+                    </Section>
+                ))}
 
-        <Section>
-          <Label>
-            <Title>유아</Title>
-            <Sub>2세 미만</Sub>
-          </Label>
-          <Counter>
-            <Button onClick={decrease(infants, setInfants)} disabled={infants <= 0}>-</Button>
-            <Count>{infants}</Count>
-            <Button onClick={increase(setInfants)}>+</Button>
-          </Counter>
-        </Section>
-      </Modal>
-    </Overlay>
-  );
+            </Modal>
+        </Overlay>
+    );
 }
 
 const Overlay = styled.div`
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  display: flex;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-  margin-left: 450px;
-  margin-top: 15px;
+  z-index: 999;
 `;
 
 const Modal = styled.div`
   background: #fff;
-  padding: 30px;
-  border-radius: 16px;
+  padding: 45px;
   width: 400px;
+  height: 47vh;
+  border-radius: 35px;
   box-shadow: 4px 0px 20px rgba(0, 0, 0, 0.1);
+  margin-top: 200px;
+  margin-left: 750px;
 `;
 
-const Section = styled.div`
+const Section = styled.div<{ isLast: boolean }>`
   display: flex;
   justify-content: space-between;
   margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: ${({ isLast }) => (isLast ? "none" : "1px solid #EBEBEB")};
 `;
+
 
 const Label = styled.div`
   display: flex;
   flex-direction: column;
+  gap: 5px;
 `;
 
 const Title = styled.span`
   font-size: 16px;
-  font-weight: 600;
 `;
 
 const Sub = styled.span`
-  font-size: 13px;
+  font-size: 14px;
   color: gray;
+  font-weight: 400;
 `;
 
 const Counter = styled.div`
@@ -133,17 +127,4 @@ const Count = styled.span`
   font-size: 16px;
   width: 20px;
   text-align: center;
-`;
-
-const CloseButton = styled.button`
-  margin-top: 20px;
-  width: 100%;
-  padding: 10px 0;
-  border: none;
-  background-color: #FF385C;
-  color: white;
-  font-weight: bold;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 15px;
 `;

@@ -2,10 +2,13 @@
 import styled from "styled-components";
 import Image from 'next/image';
 import { useRef, useState } from "react";
-import New from '../app/assets/new.png';
 import PlaceModal from "./TripModal";
 import GuestModal from '@/components/GuestModal';
+import CheckModal from '@/components/CheckModal';
 
+interface Place {
+    name: string;
+}
 
 export default function Header() {
     const [select, setSelect] = useState<number | null>(null);
@@ -16,6 +19,16 @@ export default function Header() {
     const [isModal1, setIsModal1] = useState<boolean>(false);
     const [isModal2, setIsModal2] = useState<boolean>(false);
     const [isModal3, setIsModal3] = useState<boolean>(false);
+    const [selectedPlace, setSelectedPlace] = useState<string | null>(null);
+    const [checkInDate, setCheckInDate] = useState<Date | null>(null);
+    const [checkOutDate, setCheckOutDate] = useState<Date | null>(null);
+    const [dateFocus, setDateFocus] = useState<'checkin' | 'checkout' | null>(null);
+
+
+    const handlePlaceSelect = (place: Place) => {
+        setSelectedPlace(place.name);
+        setSelectedIndex(null);
+    }
 
     const videoRef = useRef<HTMLVideoElement>(null);
     const videoRef2 = useRef<HTMLVideoElement>(null);
@@ -41,10 +54,6 @@ export default function Header() {
                 }
             }
         });
-    };
-
-    const closeModalHandler = (setModal: React.Dispatch<React.SetStateAction<boolean>>) => {
-        setModal(false);
     };
 
     const handlePlaceClick = () => {
@@ -121,7 +130,9 @@ export default function Header() {
                 >
                     <Trip>
                         <TripS>여행지</TripS>
-                        <TripSearch>여행지 검색</TripSearch>
+                        <TripSearch>
+                            {selectedPlace || '여행지 검색'}
+                        </TripSearch>
                     </Trip>
                 </Box>
 
@@ -130,7 +141,9 @@ export default function Header() {
                 <Box
                     onClick={() => {
                         setSelectedIndex(1);
-                        setUnderlineLeft(1); // 위치 조정
+                        setUnderlineLeft(1);
+                        setIsModal2(true);
+                        setDateFocus('checkin');
                     }}
                     onMouseEnter={() => setHoveredIndex(1)}
                     onMouseLeave={() => setHoveredIndex(null)}
@@ -151,7 +164,9 @@ export default function Header() {
                 <Box
                     onClick={() => {
                         setSelectedIndex(2);
-                        setUnderlineLeft(2); // 위치 조정
+                        setUnderlineLeft(2);
+                        setIsModal2(true);
+                        setDateFocus('checkout');
                     }}
                     onMouseEnter={() => setHoveredIndex(2)}
                     onMouseLeave={() => setHoveredIndex(null)}
@@ -198,12 +213,36 @@ export default function Header() {
             {isModal1 && (
                 <PlaceModal
                     show={isModal1}
-                    onClose={() => setIsModal1(false)}
-                    onSelect={() => { }}
+                    onClose={() => {
+                        setIsModal1(false);
+                        setSelectedIndex(null);
+                    }}
+                    onSelect={handlePlaceSelect}
                 />
             )}
+            {isModal2 && (
+                <CheckModal
+                    show={isModal2}
+                    onClose={() => {
+                        setIsModal2(false);
+                        setSelectedIndex(null);
+                    }}
+                    focus={dateFocus}
+                    onSelect={(checkIn, checkOut) => {
+                        setCheckInDate(checkIn);
+                        setCheckOutDate(checkOut);
+                    }}
+                />
+            )}
+
             {isModal3 && (
-                <GuestModal onClose={() => setIsModal3(false)} />
+                <GuestModal
+                    show={isModal3}
+                    onClose={() => {
+                        setIsModal3(false);
+                        setSelectedIndex(null);
+                    }}
+                />
             )}
         </StyledHeader>
     );

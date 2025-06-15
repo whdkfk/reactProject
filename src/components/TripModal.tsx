@@ -5,7 +5,6 @@ type Place = {
   id: number;
   name: string;
   description: string;
-  imgUrl: string;
 };
 
 type ModalProps = {
@@ -15,15 +14,14 @@ type ModalProps = {
 };
 
 const dummyPlaces: Place[] = [
-  { id: 1, name: "서울", description: "대한민국의 수도", imgUrl: "/images/seoul.jpg" },
-  { id: 2, name: "부산", description: "해운대가 유명한 도시", imgUrl: "/images/busan.jpg" },
-  { id: 3, name: "제주도", description: "휴양지로 인기", imgUrl: "/images/jeju.jpg" },
-  { id: 4, name: "강릉", description: "동해안의 대표 도시", imgUrl: "/images/gangneung.jpg" },
-  { id: 5, name: "강릉", description: "동해안의 대표 도시", imgUrl: "/images/gangneung.jpg" },
-  { id: 4, name: "강릉", description: "동해안의 대표 도시", imgUrl: "/images/gangneung.jpg" },
-  { id: 4, name: "강릉", description: "동해안의 대표 도시", imgUrl: "/images/gangneung.jpg" },
-  { id: 4, name: "강릉", description: "동해안의 대표 도시", imgUrl: "/images/gangneung.jpg" },
-  { id: 4, name: "강릉", description: "동해안의 대표 도시", imgUrl: "/images/gangneung.jpg" },
+  { id: 1, name: "근처 체험 찾기", description: "가까운 곳에서 즐길 수 있는 체험을 찾아보세요."},
+  { id: 2, name: "부산", description: "부산 숙소가 저장된 위시리스트에 기반한 추천"},
+  { id: 3, name: "광안리해수욕장, 부산", description: "해변으로 인기 있는 곳"},
+  { id: 4, name: "강릉시, 강원도", description: "자연을 만끽하기 좋은 곳"},
+  { id: 5, name: "속초시, 강원도", description: "호수가 유명한 곳"},
+  { id: 6, name: "오사카시, 일본", description: "관광 명소: 오사카성"},
+  { id: 7, name: "전주, 전라북도", description: "최고급 다이닝을 즐기기 좋은 곳"},
+  { id: 8, name: "서귀포시, 제주도", description: "동해안의 대표 도시"},
 
 ];
 
@@ -42,7 +40,7 @@ export default function PlaceModal({ show, onClose, onSelect }: ModalProps) {
         <PlaceList>
           {dummyPlaces.map(place => (
             <PlaceItem key={place.id} onClick={() => handlePlaceClick(place)}>
-              <PlaceImage src={place.imgUrl} alt={place.name} />
+              <PlaceImage src={`/images/trip${place.id}.png`} alt={place.name} />
               <PlaceInfo>
                 <PlaceName>{place.name}</PlaceName>
                 <PlaceDesc>{place.description}</PlaceDesc>
@@ -56,12 +54,15 @@ export default function PlaceModal({ show, onClose, onSelect }: ModalProps) {
 }
 
 const Overlay = styled.div`
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-left: -400px;
-  margin-top: 15px;
+  top: 0;
+  left: 0;
+  z-index: 999;
 `;
+
 
 const ModalContainer = styled.div`
   background: white;
@@ -71,10 +72,12 @@ const ModalContainer = styled.div`
   border-radius: 35px;
   box-shadow: 4px 0px 20px rgba(0, 0, 0, 0.1);
   padding: 30px;
+  margin-top: 200px;
+  margin-left: 295px;
 `;
 
 const Title = styled.h2`
-  margin: 0 0 15px 0;
+  margin: 0 0 15px 5px;
   font-weight: 400;
   font-size: 14px;
 `;
@@ -101,23 +104,24 @@ const PlaceItem = styled.li`
 `;
 
 const PlaceImage = styled.img`
-  width: 70px;
-  height: 50px;
-  border-radius: 8px;
+  width: 60px;
+  height: 55px;
+  /* border-radius: 8px; */
   object-fit: cover;
 `;
 
 const PlaceInfo = styled.div`
   display: flex;
   flex-direction: column;
+  gap: 5px;
 `;
 
 const PlaceName = styled.span`
-  font-weight: 600;
-  font-size: 16px;
+  font-size: 15px;
 `;
 
 const PlaceDesc = styled.span`
   font-size: 13px;
   color: gray;
+  font-weight: 400;
 `;
