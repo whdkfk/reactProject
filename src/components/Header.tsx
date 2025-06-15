@@ -3,13 +3,19 @@ import styled from "styled-components";
 import Image from 'next/image';
 import { useRef, useState } from "react";
 import New from '../app/assets/new.png';
+import PlaceModal from "./TripModal";
+import GuestModal from '@/components/GuestModal';
 
 
 export default function Header() {
     const [select, setSelect] = useState<number | null>(null);
     const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-    const [pos, setPos] = useState({ x: 560, y:73 });
-
+    const [pos, setPos] = useState({ x: 560, y: 73 });
+    const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+    const [underlineLeft, setUnderlineLeft] = useState<number>(0);
+    const [isModal1, setIsModal1] = useState<boolean>(false);
+    const [isModal2, setIsModal2] = useState<boolean>(false);
+    const [isModal3, setIsModal3] = useState<boolean>(false);
 
     const videoRef = useRef<HTMLVideoElement>(null);
     const videoRef2 = useRef<HTMLVideoElement>(null);
@@ -18,9 +24,9 @@ export default function Header() {
     const handleClick = (index: number) => {
         setSelect(index);
         const positions = [
-            { x: 560, y:73 },   // 숙소
-            { x: 670, y:73  },  // 체험
-            { x: 780, y:73 },  // 서비스
+            { x: 560, y: 73 },   // 숙소
+            { x: 670, y: 73 },  // 체험
+            { x: 780, y: 73 },  // 서비스
         ];
         setPos(positions[index]);
 
@@ -37,8 +43,17 @@ export default function Header() {
         });
     };
 
-    return (
+    const closeModalHandler = (setModal: React.Dispatch<React.SetStateAction<boolean>>) => {
+        setModal(false);
+    };
 
+    const handlePlaceClick = () => {
+        setSelectedIndex(0);
+        setUnderlineLeft(0);
+        setIsModal1(true);
+    };
+
+    return (
         <StyledHeader>
             <Top>
                 <ImgLogo src="/icons/logo.png?v=2" alt="logo" />
@@ -94,7 +109,16 @@ export default function Header() {
                 </RightBox>
             </Top>
             <Search>
-                <Box onMouseEnter={() => setHoveredIndex(0)} onMouseLeave={() => setHoveredIndex(null)}>
+                <Box
+                    onClick={handlePlaceClick}
+                    onMouseEnter={() => setHoveredIndex(0)}
+                    onMouseLeave={() => setHoveredIndex(null)}
+                    style={{
+                        backgroundColor: selectedIndex === 0 ? '#EBEBEB' : '#fff',
+                        borderRadius: selectedIndex === 0 ? '50px' : '50px',
+                        transition: 'background-color 0.3s ease',
+                    }}
+                >
                     <Trip>
                         <TripS>여행지</TripS>
                         <TripSearch>여행지 검색</TripSearch>
@@ -103,7 +127,19 @@ export default function Header() {
 
                 <ImgLine $hide={hoveredIndex === 0 || hoveredIndex === 1} src="images/line.png" alt="line" />
 
-                <Box onMouseEnter={() => setHoveredIndex(1)} onMouseLeave={() => setHoveredIndex(null)}>
+                <Box
+                    onClick={() => {
+                        setSelectedIndex(1);
+                        setUnderlineLeft(1); // 위치 조정
+                    }}
+                    onMouseEnter={() => setHoveredIndex(1)}
+                    onMouseLeave={() => setHoveredIndex(null)}
+                    style={{
+                        backgroundColor: selectedIndex === 1 ? '#EBEBEB' : '#fff',
+                        borderRadius: selectedIndex === 1 ? '50px' : '50px',
+                        transition: 'background-color 0.3s ease',
+                    }}
+                >
                     <Check1>
                         <TripS>체크인</TripS>
                         <TripSearch>날짜 추가</TripSearch>
@@ -112,7 +148,19 @@ export default function Header() {
 
                 <ImgLine $hide={hoveredIndex === 1 || hoveredIndex === 2} src="images/line.png" alt="line" />
 
-                <Box onMouseEnter={() => setHoveredIndex(2)} onMouseLeave={() => setHoveredIndex(null)}>
+                <Box
+                    onClick={() => {
+                        setSelectedIndex(2);
+                        setUnderlineLeft(2); // 위치 조정
+                    }}
+                    onMouseEnter={() => setHoveredIndex(2)}
+                    onMouseLeave={() => setHoveredIndex(null)}
+                    style={{
+                        backgroundColor: selectedIndex === 2 ? '#EBEBEB' : '#fff',
+                        borderRadius: selectedIndex === 2 ? '50px' : '50px',
+                        transition: 'background-color 0.3s ease',
+                    }}
+                >
                     <Check2>
                         <TripS>체크아웃</TripS>
                         <TripSearch>날짜 추가</TripSearch>
@@ -121,7 +169,20 @@ export default function Header() {
 
                 <ImgLine $hide={hoveredIndex === 2 || hoveredIndex === 3} src="images/line.png" alt="line" />
 
-                <Box onMouseEnter={() => setHoveredIndex(3)} onMouseLeave={() => setHoveredIndex(null)}>
+                <Box
+                    onClick={() => {
+                        setSelectedIndex(3);
+                        setUnderlineLeft(3);
+                        setIsModal3(true);
+                    }}
+                    onMouseEnter={() => setHoveredIndex(3)}
+                    onMouseLeave={() => setHoveredIndex(null)}
+                    style={{
+                        backgroundColor: selectedIndex === 3 ? '#EBEBEB' : '#fff',
+                        borderRadius: selectedIndex === 3 ? '50px' : '50px',
+                        transition: 'background-color 0.3s ease',
+                    }}
+                >
                     <TP>
                         <Pe>
                             <TripS>여행자</TripS>
@@ -134,7 +195,16 @@ export default function Header() {
                 </Box>
             </Search>
 
-
+            {isModal1 && (
+                <PlaceModal
+                    show={isModal1}
+                    onClose={() => setIsModal1(false)}
+                    onSelect={() => { }}
+                />
+            )}
+            {isModal3 && (
+                <GuestModal onClose={() => setIsModal3(false)} />
+            )}
         </StyledHeader>
     );
 }
@@ -144,7 +214,6 @@ const Box = styled.div`
     align-items: center;
     height: 100%;
 `;
-
 
 const StyledHeader = styled.div`
     width: 100%;
