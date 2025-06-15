@@ -13,7 +13,7 @@ interface Place {
 export default function Header() {
     const [select, setSelect] = useState<number | null>(null);
     const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-    const [pos, setPos] = useState({ x: 560, y: 73 });
+    const [pos, setPos] = useState({ x: 550, y: 73 });
     const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
     const [underlineLeft, setUnderlineLeft] = useState<number>(0);
     const [isModal1, setIsModal1] = useState<boolean>(false);
@@ -37,9 +37,9 @@ export default function Header() {
     const handleClick = (index: number) => {
         setSelect(index);
         const positions = [
-            { x: 560, y: 73 },   // 숙소
+            { x: 550, y: 73 },   // 숙소
             { x: 670, y: 73 },  // 체험
-            { x: 780, y: 73 },  // 서비스
+            { x: 770, y: 73 },  // 서비스
         ];
         setPos(positions[index]);
 
