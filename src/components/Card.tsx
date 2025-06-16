@@ -9,6 +9,7 @@ interface StayCardProps {
   price: string;
   nights: number;
   rating: number;
+  onClick?: () => void;
 }
 
 export default function Card({
@@ -18,10 +19,11 @@ export default function Card({
   dateRange,
   price,
   nights,
-  rating
+  rating,
+  onClick
 }: StayCardProps) {
   return (
-    <CardWrapper>
+    <CardWrapper onClick={onClick}>
       <ImageContainer>
         <StayImage src={`images/room${id}.png`} alt={title} />
         {isPreferred && <Badge>게스트 선호</Badge>}

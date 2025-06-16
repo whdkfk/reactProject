@@ -65,13 +65,14 @@ export default function Header() {
     return (
         <StyledHeader>
             <Top>
-                <ImgLogo src="/icons/logo.png?v=2" alt="logo" />
+                <ImgLogo src="/icons/logo.png?v=2" alt="logo" height={70}/>
                 <Nav>
                     <House onClick={() => handleClick(0)}>
                         <Video
                             ref={videoRef}
                             src="/videos/house.mov"
-                            width="600"
+                            width={600}
+                            height={25}
                             controls={false}
                         />
                         <Label1 selected={select === 0}>숙소</Label1>
@@ -86,7 +87,8 @@ export default function Header() {
                         <Video
                             ref={videoRef2}
                             src="/videos/balloon.mov"
-                            width="600"
+                            width={600}
+                            height={25}
                             controls={false}
                         />
                         <ImgF>
@@ -98,7 +100,8 @@ export default function Header() {
                         <Video
                             ref={videoRef3}
                             src="/videos/consierge.mov"
-                            width="600"
+                            width={600}
+                            height={25}
                             controls={false}
                         />
                         <ImgF>
@@ -308,7 +311,7 @@ const ImgL = styled.img`
 const UnderlineImg = styled.img`
   height: 25px;
   position: absolute;
-  transition: all 0.3s ease; // 추가!
+  transition: all 0.3s ease;
 `;
 
 

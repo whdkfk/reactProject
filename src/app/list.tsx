@@ -1,8 +1,20 @@
 'use client';
 import Card from '@/components/Card';
 import styled from 'styled-components';
+import Detail from '@/components/Detail';
+import { useState } from 'react';
 
-const dummy = [
+interface Stay {
+    id: number;
+    isPreferred: boolean;
+    title: string;
+    dateRange: string;
+    price: string;
+    nights: number;
+    rating: number;
+}
+
+const dummy: Stay[] = [
     {
         id: 1,
         isPreferred: true,
@@ -87,6 +99,9 @@ const dummy = [
 ];
 
 export default function DummyStayList() {
+    const [selectedStay, setSelectedStay] = useState<Stay | null>(null);
+    const [showDetail, setShowDetail] = useState(false);
+
     return (
         <OuterWrapper>
             <Content>
@@ -94,7 +109,10 @@ export default function DummyStayList() {
                     <h3>서울의 인기 숙소</h3>
                     <Container>
                         {dummy.map((stay, index) => (
-                            <Card key={index} {...stay} />
+                            <Card key={index} {...stay} onClick={() => {
+                                setSelectedStay(stay);
+                                setShowDetail(true);
+                            }} />
                         ))}
                     </Container>
                 </Seoul>
@@ -102,14 +120,26 @@ export default function DummyStayList() {
                     <h3>이번 주말에 예약 가능한 제주도 숙소</h3>
                     <Container>
                         {dummy.map((stay, index) => (
-                            <Card key={index} {...stay} />
+                            <Card key={index} {...stay} onClick={() => {
+                                setSelectedStay(stay);
+                                setShowDetail(true);
+                            }} />
                         ))}
                     </Container>
                 </This>
+                {showDetail && selectedStay && (
+                    <Detail
+                        show={showDetail}
+                        onClose={() => setShowDetail(false)}
+                        data={selectedStay}
+                    />
+                )}
             </Content>
         </OuterWrapper>
     );
 }
+
+
 
 
 const OuterWrapper = styled.div`
@@ -124,7 +154,13 @@ const Container = styled.div`
   padding: 10px;
   gap: 10px;
   width: 100%;
-  
+
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
   & > * {
     flex: 0 0 auto;
   }
