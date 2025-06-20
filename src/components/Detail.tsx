@@ -29,7 +29,7 @@ export default function Detail({ show, onClose, data }: DetailModalProps) {
 
   return (
     <Overlay onClick={onClose}>
-      <Modal onClick={(e) => e.stopPropagation()}>
+      {/* <Modal onClick={(e) => e.stopPropagation()}>
         <CloseButton onClick={onClose}>×</CloseButton>
         <Image />
         <Title>{data.title}</Title>
@@ -40,7 +40,7 @@ export default function Detail({ show, onClose, data }: DetailModalProps) {
           <p><strong>평점:</strong> ⭐ {data.rating}</p>
           {data.isPreferred && <Badge>에어비앤비 추천</Badge>}
         </Info>
-      </Modal>
+      </Modal> */}
     </Overlay>
   );
 }
