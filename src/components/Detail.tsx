@@ -2,7 +2,7 @@
 
 import styled from 'styled-components';
 import { useEffect } from 'react';
-import Map from '@/components/Map';
+//import Map from '@/components/Map';
 
 export default function Detail({ show, onClose, data }: DetailModalProps) {
   useEffect(() => {
@@ -38,7 +38,7 @@ export default function Detail({ show, onClose, data }: DetailModalProps) {
           <Korea>서울, 한국</Korea>
           <SubTitle>위치</SubTitle>
           <Korea>서울, 한국</Korea>
-          <Map // 지도를 표시할 Container
+          {/* <Map // 지도를 표시할 Container
             id="map"
             center={{
               // 지도의 중심좌표
@@ -51,7 +51,7 @@ export default function Detail({ show, onClose, data }: DetailModalProps) {
               height: "350px",
             }}
             level={3} // 지도의 확대 레벨
-          />
+          /> */}
         </Info>
       </Modal>
     </Overlay>
