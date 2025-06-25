@@ -4,21 +4,21 @@ import styled from 'styled-components';
 import { useEffect } from 'react';
 //import Map from '@/components/Map';
 
-export default function Detail({ show, onClose, data }: DetailModalProps) {
-  useEffect(() => {
-    const handleEsc = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
-    };
-    window.addEventListener('keydown', handleEsc);
-    return () => window.removeEventListener('keydown', handleEsc);
-  }, [onClose]);                                     
+export default function Detail({/*{ show, onClose, data }: DetailModalProps*/}) {
+  // useEffect(() => {
+  //   const handleEsc = (e: KeyboardEvent) => {
+  //     if (e.key === 'Escape') onClose();
+  //   };
+  //   window.addEventListener('keydown', handleEsc);
+  //   return () => window.removeEventListener('keydown', handleEsc);
+  // }, [onClose]);                                     
 
-  if (!show) return null;
+  // if (!show) return null;
 
   return (
-    <Overlay onClick={onClose}>
+    <Overlay onClick={/*onClose*/}>
       <Modal onClick={(e) => e.stopPropagation()}>
-        <StayImage src={`images/room${data.id}.png`} alt={data.title} />
+        <StayImage src={`images/room${data.id}.png`} alt={data.title} />sss
         <SubImage src={`images/room${data.id}.png`} alt={data.title} />
         <Sub2Image src={`images/room${data.id}.png`} alt={data.title} />
         <Sub3Image src={`images/room${data.id}.png`} alt={data.title} />
