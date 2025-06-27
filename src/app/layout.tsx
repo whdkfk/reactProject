@@ -1,12 +1,14 @@
-import Script from 'next/script'
 import React from 'react'
+import Header from '@/components/Header'
+import "@/app/globals.css";
 
 export default function layout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ko">
+    <html>
       <body>
-        {children}
+        <Header />
+        <div>{children}</div>
       </body>
     </html>
-  )
+  );
 }

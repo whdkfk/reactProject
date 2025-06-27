@@ -6,13 +6,23 @@ import { useEffect } from 'react';
 
 type DetailProps = {
   onClose: () => void;
+  show: boolean;
   data: {
     id: number;
     title: string;
   };
 };
 
-export default function Detail({ onClose, data }: DetailProps) {
+export default function Detail({ show, onClose, data }: DetailProps) {
+  useEffect(() => {
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', handleEsc);
+    return () => window.removeEventListener('keydown', handleEsc);
+  }, [onClose]);                                     
+
+  if (!show) return null;
 
   return (
     <Overlay onClick={onClose}>
@@ -24,6 +34,11 @@ export default function Detail({ onClose, data }: DetailProps) {
         <Title>{data.title}</Title>
         <Sub>슈퍼싱글 1개, 공용욕실</Sub>
         <Info>
+          {/* <p><strong>숙박 기간:</strong> {data.dateRange}</p>
+          <p><strong>숙박일 수:</strong> {data.nights}박</p>
+          <p><strong>가격:</strong> {data.price}</p>
+          <p><strong>평점:</strong> ⭐ {data.rating}</p>
+          {data.isPreferred && <Badge>에어비앤비 추천</Badge>} */}
           <Main>
             <StarImg src="images/star.png" alt={data.title} />
             <OptionImg src="images/option.png" alt={data.title} />
