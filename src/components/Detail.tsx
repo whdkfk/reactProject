@@ -4,19 +4,18 @@ import styled from 'styled-components';
 import { useEffect } from 'react';
 //import Map from '@/components/Map';
 
-export default function Detail({/*{ show, onClose, data }: DetailModalProps*/}) {
-  // useEffect(() => {
-  //   const handleEsc = (e: KeyboardEvent) => {
-  //     if (e.key === 'Escape') onClose();
-  //   };
-  //   window.addEventListener('keydown', handleEsc);
-  //   return () => window.removeEventListener('keydown', handleEsc);
-  // }, [onClose]);                                     
+type DetailProps = {
+  onClose: () => void;
+  data: {
+    id: number;
+    title: string;
+  };
+};
 
-  // if (!show) return null;
+export default function Detail({ onClose, data }: DetailProps) {
 
   return (
-    <Overlay onClick={/*onClose*/}>
+    <Overlay onClick={onClose}>
       <Modal onClick={(e) => e.stopPropagation()}>
         <StayImage src={`images/room${data.id}.png`} alt={data.title} />sss
         <SubImage src={`images/room${data.id}.png`} alt={data.title} />
@@ -25,11 +24,6 @@ export default function Detail({/*{ show, onClose, data }: DetailModalProps*/}) 
         <Title>{data.title}</Title>
         <Sub>슈퍼싱글 1개, 공용욕실</Sub>
         <Info>
-          {/* <p><strong>숙박 기간:</strong> {data.dateRange}</p>
-          <p><strong>숙박일 수:</strong> {data.nights}박</p>
-          <p><strong>가격:</strong> {data.price}</p>
-          <p><strong>평점:</strong> ⭐ {data.rating}</p>
-          {data.isPreferred && <Badge>에어비앤비 추천</Badge>} */}
           <Main>
             <StarImg src="images/star.png" alt={data.title} />
             <OptionImg src="images/option.png" alt={data.title} />
@@ -38,20 +32,6 @@ export default function Detail({/*{ show, onClose, data }: DetailModalProps*/}) 
           <Korea>서울, 한국</Korea>
           <SubTitle>위치</SubTitle>
           <Korea>서울, 한국</Korea>
-          {/* <Map // 지도를 표시할 Container
-            id="map"
-            center={{
-              // 지도의 중심좌표
-              lat: 33.450701,
-              lng: 126.570667,
-            }}
-            style={{
-              // 지도의 크기
-              width: "100%",
-              height: "350px",
-            }}
-            level={3} // 지도의 확대 레벨
-          /> */}
         </Info>
       </Modal>
     </Overlay>
