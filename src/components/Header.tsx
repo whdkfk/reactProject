@@ -10,62 +10,84 @@ interface Place {
     name: string;
 }
 
-export default function Header() {
+interface HeaderProps {
+    selectedPlace: string;
+    setSelectedPlace: (place: string) => void;
+    checkInDate: Date | null;
+    setCheckInDate: (date: Date | null) => void;
+    checkOutDate: Date | null;
+    setCheckOutDate: (date: Date | null) => void;
+    onSearch: () => void;
+}
+
+
+export default function Header({
+    selectedPlace,
+    setSelectedPlace,
+    checkInDate,
+    setCheckInDate,
+    checkOutDate,
+    setCheckOutDate,
+    onSearch,
+}: HeaderProps) {
+
     const [select, setSelect] = useState<number | null>(null);
     const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
     const [pos, setPos] = useState({ x: 550, y: 73 });
     const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
-    const [underlineLeft, setUnderlineLeft] = useState<number>(0);
-    const [isModal1, setIsModal1] = useState<boolean>(false);
-    const [isModal2, setIsModal2] = useState<boolean>(false);
-    const [isModal3, setIsModal3] = useState<boolean>(false);
-    const [selectedPlace, setSelectedPlace] = useState<string | null>(null);
-    const [checkInDate, setCheckInDate] = useState<Date | null>(null);
-    const [checkOutDate, setCheckOutDate] = useState<Date | null>(null);
+    const [isModal1, setIsModal1] = useState(false);
+    const [isModal2, setIsModal2] = useState(false);
+    const [isModal3, setIsModal3] = useState(false);
     const [dateFocus, setDateFocus] = useState<'checkin' | 'checkout' | null>(null);
-
 
     const handlePlaceSelect = (place: Place) => {
         setSelectedPlace(place.name);
         setSelectedIndex(null);
-    }
+    };
 
     const videoRef = useRef<HTMLVideoElement>(null);
     const videoRef2 = useRef<HTMLVideoElement>(null);
     const videoRef3 = useRef<HTMLVideoElement>(null);
 
+    const videoRefs = [useRef<HTMLVideoElement>(null), useRef<HTMLVideoElement>(null), useRef<HTMLVideoElement>(null)];
+
     const handleClick = (index: number) => {
         setSelect(index);
         const positions = [
-            { x: 550, y: 73 },   // 숙소
-            { x: 670, y: 73 },  // 체험
-            { x: 770, y: 73 },  // 서비스
+            { x: 550, y: 73 },
+            { x: 670, y: 73 },
+            { x: 770, y: 73 }
         ];
         setPos(positions[index]);
 
-        [videoRef, videoRef2, videoRef3].forEach((ref, i) => {
+        videoRefs.forEach((ref, i) => {
             if (ref.current) {
                 if (i === index) {
                     ref.current.play();
                 } else {
                     ref.current.pause();
                     ref.current.currentTime = 0;
-
                 }
             }
         });
     };
 
+    const handleBoxClick = (index: number, modalSetter: React.Dispatch<React.SetStateAction<boolean>>, focus?: 'checkin' | 'checkout') => {
+        setSelectedIndex(index);
+        modalSetter(true);
+        if (focus) setDateFocus(focus);
+    };
+
     const handlePlaceClick = () => {
         setSelectedIndex(0);
-        setUnderlineLeft(0);
         setIsModal1(true);
     };
+
 
     return (
         <StyledHeader>
             <Top>
-                <ImgLogo src="/icons/logo.png?v=2" alt="logo" height={70}/>
+                <ImgLogo src="/icons/logo.png?v=2" alt="logo" height={70} />
                 <Nav>
                     <House onClick={() => handleClick(0)}>
                         <Video
@@ -127,15 +149,13 @@ export default function Header() {
                     onMouseLeave={() => setHoveredIndex(null)}
                     style={{
                         backgroundColor: selectedIndex === 0 ? '#EBEBEB' : '#fff',
-                        borderRadius: selectedIndex === 0 ? '50px' : '50px',
+                        borderRadius: '50px',
                         transition: 'background-color 0.3s ease',
                     }}
                 >
                     <Trip>
                         <TripS>여행지</TripS>
-                        <TripSearch>
-                            {selectedPlace || '여행지 검색'}
-                        </TripSearch>
+                        <TripSearch>{selectedPlace || '여행지 검색'}</TripSearch>
                     </Trip>
                 </Box>
 
@@ -144,7 +164,6 @@ export default function Header() {
                 <Box
                     onClick={() => {
                         setSelectedIndex(1);
-                        setUnderlineLeft(1);
                         setIsModal2(true);
                         setDateFocus('checkin');
                     }}
@@ -152,13 +171,13 @@ export default function Header() {
                     onMouseLeave={() => setHoveredIndex(null)}
                     style={{
                         backgroundColor: selectedIndex === 1 ? '#EBEBEB' : '#fff',
-                        borderRadius: selectedIndex === 1 ? '50px' : '50px',
+                        borderRadius: '50px',
                         transition: 'background-color 0.3s ease',
                     }}
                 >
                     <Check1>
                         <TripS>체크인</TripS>
-                        <TripSearch>날짜 추가</TripSearch>
+                        <TripSearch>{checkInDate ? checkInDate.toLocaleDateString() : '날짜 추가'}</TripSearch>
                     </Check1>
                 </Box>
 
@@ -167,7 +186,6 @@ export default function Header() {
                 <Box
                     onClick={() => {
                         setSelectedIndex(2);
-                        setUnderlineLeft(2);
                         setIsModal2(true);
                         setDateFocus('checkout');
                     }}
@@ -175,13 +193,13 @@ export default function Header() {
                     onMouseLeave={() => setHoveredIndex(null)}
                     style={{
                         backgroundColor: selectedIndex === 2 ? '#EBEBEB' : '#fff',
-                        borderRadius: selectedIndex === 2 ? '50px' : '50px',
+                        borderRadius: '50px',
                         transition: 'background-color 0.3s ease',
                     }}
                 >
                     <Check2>
                         <TripS>체크아웃</TripS>
-                        <TripSearch>날짜 추가</TripSearch>
+                        <TripSearch>{checkOutDate ? checkOutDate.toLocaleDateString() : '날짜 추가'}</TripSearch>
                     </Check2>
                 </Box>
 
@@ -190,7 +208,6 @@ export default function Header() {
                 <Box
                     onClick={() => {
                         setSelectedIndex(3);
-                        setUnderlineLeft(3);
                         setIsModal3(true);
                     }}
                     onMouseEnter={() => setHoveredIndex(3)}
@@ -206,7 +223,13 @@ export default function Header() {
                             <TripS>여행자</TripS>
                             <TripSearch>게스트 추가</TripSearch>
                         </Pe>
-                        <SearchB>
+
+                        <SearchB
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                onSearch();
+                            }}
+                        >
                             <ImgS src="/images/search.png" alt="search" />
                         </SearchB>
                     </TP>
@@ -237,7 +260,6 @@ export default function Header() {
                     }}
                 />
             )}
-
             {isModal3 && (
                 <GuestModal
                     show={isModal3}

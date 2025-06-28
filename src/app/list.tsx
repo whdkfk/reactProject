@@ -12,6 +12,7 @@ interface Stay {
     price: string;
     nights: number;
     rating: number;
+    address: string;
 }
 
 const dummy: Stay[] = [
@@ -22,7 +23,8 @@ const dummy: Stay[] = [
         dateRange: '3월 6일~8일',
         price: '₩159,765',
         nights: 2,
-        rating: 4.94
+        rating: 4.94,
+        address: "부산광역시 해운대구 센텀1로 17"
     },
     {
         id: 2,
@@ -31,7 +33,8 @@ const dummy: Stay[] = [
         dateRange: '3월 10일~12일',
         price: '₩189,000',
         nights: 2,
-        rating: 4.87
+        rating: 4.87,
+        address: "부산광역시 해운대구 센텀1로 17"
     },
     {
         id: 3,
@@ -40,7 +43,8 @@ const dummy: Stay[] = [
         dateRange: '4월 2일~4일',
         price: '₩210,500',
         nights: 2,
-        rating: 4.98
+        rating: 4.98,
+        address: "부산광역시 해운대구 센텀1로 17"
     },
     {
         id: 4,
@@ -49,7 +53,8 @@ const dummy: Stay[] = [
         dateRange: '4월 2일~4일',
         price: '₩210,500',
         nights: 2,
-        rating: 4.98
+        rating: 4.98,
+        address: "부산광역시 해운대구 센텀1로 17"
     },
     {
         id: 5,
@@ -58,7 +63,8 @@ const dummy: Stay[] = [
         dateRange: '4월 2일~4일',
         price: '₩210,500',
         nights: 2,
-        rating: 4.98
+        rating: 4.98,
+        address: "부산광역시 해운대구 센텀1로 17"
     },
     {
         id: 6,
@@ -67,7 +73,8 @@ const dummy: Stay[] = [
         dateRange: '4월 2일~4일',
         price: '₩210,500',
         nights: 2,
-        rating: 4.98
+        rating: 4.98,
+        address: "부산광역시 해운대구 센텀1로 17"
     },
     {
         id: 7,
@@ -76,7 +83,8 @@ const dummy: Stay[] = [
         dateRange: '4월 2일~4일',
         price: '₩210,500',
         nights: 2,
-        rating: 4.98
+        rating: 4.98,
+        address: "부산광역시 해운대구 센텀1로 17"
     },
     {
         id: 3,
@@ -85,7 +93,8 @@ const dummy: Stay[] = [
         dateRange: '4월 2일~4일',
         price: '₩210,500',
         nights: 2,
-        rating: 4.98
+        rating: 4.98,
+        address: "부산광역시 해운대구 센텀1로 17"
     },
     {
         id: 3,
@@ -94,7 +103,8 @@ const dummy: Stay[] = [
         dateRange: '4월 2일~4일',
         price: '₩210,500',
         nights: 2,
-        rating: 4.98
+        rating: 4.98,
+        address: "부산광역시 해운대구 센텀1로 17"
     }
 ];
 

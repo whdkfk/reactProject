@@ -2,7 +2,8 @@
 
 import styled from 'styled-components';
 import { useEffect } from 'react';
-//import Map from '@/components/Map';
+import Map from '@/components/Map';
+
 
 type DetailProps = {
   onClose: () => void;
@@ -10,6 +11,7 @@ type DetailProps = {
   data: {
     id: number;
     title: string;
+    address: string;
   };
 };
 
@@ -27,7 +29,7 @@ export default function Detail({ show, onClose, data }: DetailProps) {
   return (
     <Overlay onClick={onClose}>
       <Modal onClick={(e) => e.stopPropagation()}>
-        <StayImage src={`images/room${data.id}.png`} alt={data.title} />sss
+        <StayImage src={`images/room${data.id}.png`} alt={data.title} />
         <SubImage src={`images/room${data.id}.png`} alt={data.title} />
         <Sub2Image src={`images/room${data.id}.png`} alt={data.title} />
         <Sub3Image src={`images/room${data.id}.png`} alt={data.title} />
@@ -47,6 +49,8 @@ export default function Detail({ show, onClose, data }: DetailProps) {
           <Korea>서울, 한국</Korea>
           <SubTitle>위치</SubTitle>
           <Korea>서울, 한국</Korea>
+          <Map />
+          <div id="map" style={{ width: "100%", height: "400px" }}></div>
         </Info>
       </Modal>
     </Overlay>

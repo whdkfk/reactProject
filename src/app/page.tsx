@@ -1,20 +1,41 @@
 'use client';
-import React from "react";
-import List from "@/app/list";
-import styled from 'styled-components';
+import Header from '@/components/Header';
+import DummyStayList from '@/components/DummyStayList';
+import { useState } from 'react';
 
-function Page() {
+export default function HomePage() {
+  const [selectedPlace, setSelectedPlace] = useState('');
+  const [checkInDate, setCheckInDate] = useState<Date | null>(null);
+  const [checkOutDate, setCheckOutDate] = useState<Date | null>(null);
+  const [searchParams, setSearchParams] = useState({
+    selectedPlace: '',
+    checkInDate: null as Date | null,
+    checkOutDate: null as Date | null,
+  });
+
   return (
-    <Container>
-      <List />
-    </Container>
+    <>
+      <Header
+      selectedPlace={selectedPlace}
+      setSelectedPlace={setSelectedPlace}
+      checkInDate={checkInDate}
+      setCheckInDate={setCheckInDate}
+      checkOutDate={checkOutDate}
+      setCheckOutDate={setCheckOutDate}
+      onSearch={() =>
+        setSearchParams({
+          selectedPlace,
+          checkInDate,
+          checkOutDate,
+        })
+      }
+    />
+
+    <DummyStayList
+      selectedPlace={searchParams.selectedPlace}
+      checkInDate={searchParams.checkInDate}
+      checkOutDate={searchParams.checkOutDate}
+    />
+    </>
   );
 }
-
-export default Page;
-
-const Container = styled.div`
-  display: flex;
-  width: 100%;
-  padding: 2%;
-`

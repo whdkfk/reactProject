@@ -9,6 +9,7 @@ interface StayCardProps {
   price: string;
   nights: number;
   rating: number;
+  address: string;
   onClick?: () => void;
 }
 
