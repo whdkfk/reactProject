@@ -2,7 +2,7 @@
 import styled from 'styled-components';
 import { useState } from 'react';
 import axios from 'axios';
-import { mock } from '../app/api/mock'; // 경로는 상황에 맞게 조절
+import { mock } from '../app/api/mock';
 
 interface RegisterProps {
   show: boolean;

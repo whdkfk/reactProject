@@ -25,94 +25,103 @@ const dummy: Stay[] = [
   {
     id: 1,
     isPreferred: true,
-    title: '서울의 아파트',
-    dateRange: '3월 6일~8일',
+    title: '부산의 아파트',
+    dateRange: '6월 6일~8일',
     price: '₩159,765',
     nights: 2,
     rating: 4.94,
-    address: '서울특별시 마포구 망원동',
+    address: '부산광역시 마포구 망원동',
   },
   {
     id: 2,
     isPreferred: false,
-    title: '강남 중심의 모던 룸',
-    dateRange: '3월 10일~12일',
+    title: '광안리 중심의 모던 룸',
+    dateRange: '6월 6일~8일',
     price: '₩189,000',
     nights: 2,
     rating: 4.87,
-    address: '서울특별시 강남구',
+    address: '광안리해수욕장, 부산',
   },
   {
     id: 3,
     isPreferred: true,
-    title: '한강 뷰 호텔',
-    dateRange: '4월 2일~4일',
+    title: '광안리 뷰 호텔',
+    dateRange: '6월 6일~8일',
     price: '₩210,500',
     nights: 2,
     rating: 4.98,
-    address: '부산광역시 해운대구',
+    address: '광안리해수욕장, 부산',
   },
   {
     id: 4,
     isPreferred: true,
     title: '제주 오션뷰 펜션',
-    dateRange: '6월 1일~3일',
+    dateRange: '6월 6일~8일',
     price: '₩180,000',
     nights: 2,
     rating: 4.91,
-    address: '제주특별자치도 제주시',
+    address: '서귀포시, 제주도',
   },
   {
-    id: 1,
+    id: 5,
     isPreferred: true,
-    title: '서울의 아파트',
-    dateRange: '3월 6일~8일',
+    title: '전주의 아파트',
+    dateRange: '6월 6일~8일',
     price: '₩159,765',
     nights: 2,
     rating: 4.94,
-    address: '서울특별시 마포구 망원동',
+    address: '전주',
   },
   {
-    id: 1,
+    id: 6,
     isPreferred: true,
-    title: '서울의 아파트',
-    dateRange: '3월 6일~8일',
+    title: '오사카 주택',
+    dateRange: '6월 6일~8일',
     price: '₩159,765',
     nights: 2,
     rating: 4.94,
-    address: '서울특별시 마포구 망원동',
+    address: '오사카시, 일본',
   },
   {
-    id: 1,
+    id: 7,
     isPreferred: true,
-    title: '서울의 아파트',
-    dateRange: '3월 6일~8일',
+    title: '제주 마당 주택',
+    dateRange: '6월 6일~8일',
     price: '₩159,765',
     nights: 2,
     rating: 4.94,
-    address: '서울특별시 마포구 망원동',
+    address: '서귀포시, 제주도',
   },
   {
-    id: 1,
+    id: 8,
     isPreferred: true,
-    title: '서울의 아파트',
-    dateRange: '3월 6일~8일',
+    title: '강릉 아파트',
+    dateRange: '6월 6일~8일',
     price: '₩159,765',
     nights: 2,
     rating: 4.94,
-    address: '서울특별시 마포구 망원동',
+    address: '강릉시, 강원도',
   },
   {
-    id: 1,
+    id: 9,
     isPreferred: true,
-    title: '서울의 아파트',
-    dateRange: '3월 6일~8일',
+    title: '속초시 숙소',
+    dateRange: '6월 6일~8일',
     price: '₩159,765',
     nights: 2,
     rating: 4.94,
-    address: '서울특별시 마포구 망원동',
+    address: '속초시, 강원도',
+  },
+  {
+    id: 10,
+    isPreferred: true,
+    title: '전주 호텔',
+    dateRange: '6월 6일~8일',
+    price: '₩159,765',
+    nights: 2,
+    rating: 4.94,
+    address: '전주, 전라북도',
   }
-  // ... 더미 데이터 추가 가능
 ];
 
 export default function DummyStayList({
@@ -124,12 +133,24 @@ export default function DummyStayList({
   const [showDetail, setShowDetail] = useState(false);
 
   const filteredDummy = useMemo(() => {
+    const isValidDateRange = (() => {
+      if (!checkInDate || !checkOutDate) return true;
+      const start = new Date(checkInDate.getFullYear(), 5, 6);
+      const end = new Date(checkInDate.getFullYear(), 5, 8);
+  
+      return checkInDate >= start && checkInDate <= end && checkOutDate >= start && checkOutDate <= end;
+    })();
+  
+    if (!isValidDateRange) {
+      return [];
+    }
+  
     return dummy.filter((stay) => {
-      const matchesPlace =
-        !selectedPlace || stay.address.includes(selectedPlace);
+      const matchesPlace = !selectedPlace || stay.address.includes(selectedPlace);
       return matchesPlace;
     });
-  }, [selectedPlace, checkInDate, checkOutDate]);  
+  }, [selectedPlace, checkInDate, checkOutDate]);
+  
 
   return (
     <Wrapper>
@@ -162,7 +183,6 @@ export default function DummyStayList({
   );
 }
 
-// Styled components
 const Wrapper = styled.div`
   padding: 30px 30px;
   display:flex;
