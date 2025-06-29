@@ -26,7 +26,7 @@ const Map = () => {
     <>
       <Script
         src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=3e0jo40lcj"
-        onLoad={() => setNaverLoaded(true)} // 로드 완료 시 상태 변경
+        onLoad={() => setNaverLoaded(true)}
       />
     </>
   );

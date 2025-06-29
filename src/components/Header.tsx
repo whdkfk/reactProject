@@ -5,6 +5,8 @@ import { useRef, useState } from "react";
 import PlaceModal from "./TripModal";
 import GuestModal from '@/components/GuestModal';
 import CheckModal from '@/components/CheckModal';
+import Login from './Login';
+
 
 interface Place {
     name: string;
@@ -39,6 +41,10 @@ export default function Header({
     const [isModal2, setIsModal2] = useState(false);
     const [isModal3, setIsModal3] = useState(false);
     const [dateFocus, setDateFocus] = useState<'checkin' | 'checkout' | null>(null);
+    const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+    const [isLogin, setIsLogin] = useState(false);
+    const [userName, setUserName] = useState('');
+
 
     const handlePlaceSelect = (place: Place) => {
         setSelectedPlace(place.name);
@@ -48,7 +54,6 @@ export default function Header({
     const videoRef = useRef<HTMLVideoElement>(null);
     const videoRef2 = useRef<HTMLVideoElement>(null);
     const videoRef3 = useRef<HTMLVideoElement>(null);
-
     const videoRefs = [useRef<HTMLVideoElement>(null), useRef<HTMLVideoElement>(null), useRef<HTMLVideoElement>(null)];
 
     const handleClick = (index: number) => {
@@ -70,12 +75,6 @@ export default function Header({
                 }
             }
         });
-    };
-
-    const handleBoxClick = (index: number, modalSetter: React.Dispatch<React.SetStateAction<boolean>>, focus?: 'checkin' | 'checkout') => {
-        setSelectedIndex(index);
-        modalSetter(true);
-        if (focus) setDateFocus(focus);
     };
 
     const handlePlaceClick = () => {
@@ -133,7 +132,11 @@ export default function Header({
                     </House>
                 </Nav>
                 <RightBox>
-                    <Hosting>호스팅하기</Hosting>
+                    {!isLogin ? (
+                        <Hosting onClick={() => setIsLoginModalOpen(true)}>로그인하기</Hosting>
+                    ) : (
+                        <Hosting>{userName}님</Hosting>
+                    )}
                     <Lang>
                         <ImgL src="/images/lang.png" alt="lang" />
                     </Lang>
@@ -141,6 +144,7 @@ export default function Header({
                         <ImgH src="/images/ham.png" alt="ham" />
                     </Ham>
                 </RightBox>
+
             </Top>
             <Search>
                 <Box
@@ -269,6 +273,22 @@ export default function Header({
                     }}
                 />
             )}
+            {isLoginModalOpen && (
+                <Login
+                    show={isLoginModalOpen}
+                    onClose={() => {
+                        setIsLoginModalOpen(false);
+                        setSelectedIndex(null);
+                    }}
+                    onLoginSuccess={(name: string) => {
+                        setUserName(name);
+                        setIsLogin(true);
+                        setIsLoginModalOpen(false);
+                      }}                      
+                />
+            )}
+
+
         </StyledHeader>
     );
 }
@@ -303,7 +323,7 @@ const Lang = styled.div`
 const Hosting = styled.p`
     font-size: 15px;
     white-space: nowrap;
-
+    cursor: pointer;
 `
 
 const TripSearch = styled.p`
